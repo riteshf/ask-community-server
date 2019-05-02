@@ -1,15 +1,20 @@
+
 export default `
-   type Answer {
+  scalar Date 
+
+  type Answer {
     content: String!
     createdAt: Date
     question: Question
     comments: [Comment]
   }
+
   type Comment {
     id: String!
     content: String
     createdAt: Date
   }
+
   type Question {
     title: String!
     content: String
@@ -19,7 +24,7 @@ export default `
   }
   type Query {
     question(title: String!): Question
-    question: [Question]
+    questions: [Question]
   }
   type Mutation {
     addQuestion(title: String!, content: String): Question
