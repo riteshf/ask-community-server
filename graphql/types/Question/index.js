@@ -3,6 +3,7 @@ export default `
   scalar Date 
 
   type Answer {
+    _id: ID!
     content: String!
     createdAt: Date
     question: Question
@@ -10,12 +11,13 @@ export default `
   }
 
   type Comment {
-    id: String!
+    _id: ID!
     content: String
     createdAt: Date
   }
 
   type Question {
+    _id: ID!
     title: String!
     content: String
     createdAt: Date
@@ -23,14 +25,13 @@ export default `
     comments: [Comment]
   }
   type Query {
-    question(title: String!): Question
-    questions: [Question]
+    getQuestions: [Question]
+    getQuestion(_id: ID!): Question
   }
   type Mutation {
-    addQuestion(title: String!, content: String): Question
-    deleteQuestion(id: String!): Question
-    getQuestion(title: String!): Question
-    answerQuestion(title: String!): Question
-    commentQuestion(title: String!): Question
+    askQuestion(title: String!, content: String): Question
+    answerQuestion(_id: ID!, content: String!): Answer
+    commentQuestion(_id: ID!, content: String!): Comment
+    commentAnswer(_id: ID!, content: String!): Comment
   }
 `;

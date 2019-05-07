@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 
 // Create the Comment Schema.
 const CommentSchema = new Schema({
-    id: String,
     content: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
 });
@@ -29,4 +28,4 @@ const questionSchema = new Schema({
 
 const Question = mongoose.model("Question", questionSchema);
 
-export default Question;
+export { Question };
