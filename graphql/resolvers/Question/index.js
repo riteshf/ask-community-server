@@ -1,5 +1,5 @@
 // The User schema.
-import {Question} from "../../../models/Question";
+import { Question } from "../../../models/Question";
 
 export default {
     Query: {
@@ -21,21 +21,54 @@ export default {
         },
     },
     Mutation: {
+        // askQuestion(title: String!, content: String): Question
         askQuestion: (root, { title, content }) => {
-            const newQuestion = new Question({ title, content});
+            const newQuestion = new Question({ title, content });
             return new Promise((resolve, reject) => {
                 newQuestion.save((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             });
         },
-        answerQuestion: (root, {_id, content}) => {
+        // answerQuestion(_id: ID!, content: String!): Answer
+        answerQuestion: (root, { questionId, content }) => {
             return new Promise((resolve, reject) => {
-                console.log(_id, {content: content,});
-                Question.findOneAndUpdate({_id: _id}, {$push: {answers: {content: content,}}}, (err, res) => {
-                    err ? reject(err) : resolve(res);
-                });
+                Question.findOneAndUpdate(
+                    { _id: questionId },
+                    {
+                        $push: { answers: { content: content, } },
+                        $set: { lastUpdatedAt: Date.now },
+                    },
+                    (err, res) => {
+                        err ? reject(err) : resolve(res);
+                    });
             });
-        }
+        },
+        // commentQuestion(_id: ID!, content: String!): Comment
+        commentQuestion: (root, { questionId, content }) => {
+            return new Promise((resolve, reject) => {
+                Question.findOneAndUpdate(
+                    { _id: questionId },
+                    {
+                        $push: { comments: { content: content, } },
+                        $set: { lastUpdatedAt: Date.now },
+                    },
+                    (err, res) => {
+                        err ? reject(err) : resolve(res);
+                    });
+            });
+        },
+        // commentAnswer(_id: ID!, content: String!): Comment
+        commentAnswer: (root, { questionId, commentId, content }) => {
+            return new Promise((resolve, reject) => {
+                Question.findOne({ _id: questionId })
+                    .findOneAndUpdate(
+                        { _id: commentId },
+                        { $push: { answers: { content: content, } } },
+                        (err, res) => {
+                            err ? reject(err) : resolve(res);
+                        });
+            });
+        },
     }
 };

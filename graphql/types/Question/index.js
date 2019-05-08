@@ -21,6 +21,7 @@ export default `
     title: String!
     content: String
     createdAt: Date
+    lastUpdatedAt: Date
     answers: [Answer]
     comments: [Comment]
   }
@@ -30,8 +31,8 @@ export default `
   }
   type Mutation {
     askQuestion(title: String!, content: String): Question
-    answerQuestion(_id: ID!, content: String!): Answer
-    commentQuestion(_id: ID!, content: String!): Comment
-    commentAnswer(_id: ID!, content: String!): Comment
+    answerQuestion(questionId: ID!, content: String!): Answer
+    commentQuestion(questionId: ID!, content: String!): Comment
+    commentAnswer(questionId: ID!, answerId: ID!, content: String!): Comment
   }
 `;
