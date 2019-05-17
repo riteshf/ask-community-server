@@ -5,7 +5,7 @@ export default {
     Query: {
         getQuestions: () => {
             return new Promise((resolve, reject) => {
-                Question.find({})
+                Question.find({}).sort([['createdAt', -1]])
                     .populate()
                     .exec((err, res) => {
                         err ? reject(err) : resolve(res);
@@ -37,7 +37,7 @@ export default {
                     { _id: questionId },
                     {
                         $push: { answers: { content: content, } },
-                        $set: { lastUpdatedAt: Date.now },
+                        $set: { lastUpdatedAt: Date.now() },
                     },
                     (err, res) => {
                         err ? reject(err) : resolve(res);
@@ -51,7 +51,7 @@ export default {
                     { _id: questionId },
                     {
                         $push: { comments: { content: content, } },
-                        $set: { lastUpdatedAt: Date.now },
+                        $set: { lastUpdatedAt: Date.now() },
                     },
                     (err, res) => {
                         err ? reject(err) : resolve(res);
