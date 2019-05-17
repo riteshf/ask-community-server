@@ -28,6 +28,7 @@ export default `
   type Query {
     getQuestions: [Question]
     getQuestion(_id: ID!): Question
+    getQuestionByTitle(title: String!): [Question]
   }
   type Mutation {
     askQuestion(title: String!, content: String): Question

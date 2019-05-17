@@ -19,6 +19,18 @@ export default {
                 });
             });
         },
+        getQuestionByTitle: (root, { title }) => {
+            console.log(title);
+            const searchCriteria = {
+                title: new RegExp(title, "i")
+            }
+            return new Promise((resolve, reject) => {
+                Question.find(searchCriteria).exec((err, res) => {
+                    console.log("res", res);
+                    err ? reject(err) : resolve(res);
+                });
+            });
+        },
     },
     Mutation: {
         // askQuestion(title: String!, content: String): Question
